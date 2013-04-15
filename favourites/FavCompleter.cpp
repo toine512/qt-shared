@@ -35,19 +35,26 @@ bool FavCompleter::isFavourited(const QString &s) const
 
 bool FavCompleter::toggleFavourite(const QString &s)
 {
-    int i = qsl_fav.indexOf(s.toLower());
-    if(i > -1)
+    if(s.isEmpty())
     {
-        qsl_fav.removeAt(i);
-        qslmodel->setStringList(qsl_fav);
-        p_settings->setValue(fav_path, qsl_fav);
         return false;
     }
     else
     {
-        qsl_fav.append(s.toLower());
-        qslmodel->setStringList(qsl_fav);
-        p_settings->setValue(fav_path, qsl_fav);
-        return true;
+        int i = qsl_fav.indexOf(s.toLower());
+        if(i > -1)
+        {
+            qsl_fav.removeAt(i);
+            qslmodel->setStringList(qsl_fav);
+            p_settings->setValue(fav_path, qsl_fav);
+            return false;
+        }
+        else
+        {
+            qsl_fav.append(s.toLower());
+            qslmodel->setStringList(qsl_fav);
+            p_settings->setValue(fav_path, qsl_fav);
+            return true;
+        }
     }
 }
